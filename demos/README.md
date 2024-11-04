@@ -53,7 +53,7 @@ docker run -t uniswap-on-solidity
 > - The higher the Speed value is, the faster it is as compared to Geth.
 > - Speed = 1 / Overhead
 
-## Proof hint generation of a given program
+## Proof hint generation from a given program
 
 [Insert instructions]
 
