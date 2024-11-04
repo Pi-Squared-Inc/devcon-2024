@@ -5,6 +5,7 @@
 [Insert prerequisite set up]
 
 ## Uniswap 1k swaps with Geth and K
+> Dockerfiles and instructions in this section are written by @Robertorosmaninho
 
 This section includes instructions to run `testSwapLoop` (line 696 to 704 of [swaps.sol](../src/swaps.sol)) on Geth and
 the different K semantics, i.e., K[EVM], K[Solidity] and K[Solidity[Uniswap]]. The test consists of setting up necessary 
