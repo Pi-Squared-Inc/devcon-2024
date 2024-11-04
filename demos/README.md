@@ -29,7 +29,7 @@ To build and execute the docker image for measuring UniSwap 1k swaps on K[EVM], 
 docker build --build-arg HOME=$HOME . --file=Docker/kevm.Dockerfile -t uniswap02-on-kevm
 docker run -t uniswap02-on-kevm
 ```
-### Solidity-Lite Semantics (K[Solidity] and K[Solidity[Uniswap]])
+### Solidity-Lite Semantics in K (K[Solidity] and K[Solidity[Uniswap]])
 
 To build and execute the docker image for measuring UniSwap 1k swaps on Solidity-Lite Semantics with and without summarization/optimization, 
 ,i.e., K[Solidity[Uniswap]] (optimized for Uniswap) and K[Solidity], run the following commands:
@@ -68,6 +68,7 @@ docker run -t uniswap-on-solidity
 ## Summary of benchmark measurements
 
 ### K[IMP] benchmark measurements
+> IMP semantics in K
 
 | S/No. | Program | Krun | Krun + Proof hints | PG_base | PG | o/h_PG |
 | :-: | :- | :-: | :-: | :-: | :-: | :-: |
@@ -75,6 +76,7 @@ docker run -t uniswap-on-solidity
 
 
 ### K[IMP[Transfer]] benchmark measurements
+> IMP semantics in K with summarization/optimization
 
 | S/No. | Program | Krun | Krun + Proof hints | PG_base | PG | o/h_PG |
 | :-: | :- | :-: | :-: | :-: | :-: | :-: |
@@ -82,6 +84,7 @@ docker run -t uniswap-on-solidity
 
 
 ### K[Solidity] benchmark measurements
+> Solidity-lite semantics in K
 
 | S/No. | Program | Krun | Krun + Proof hints | PG_base | PG | o/h_PG | 
 | :-: | :- | :-: | :-: | :-: | :-: | :-: |
@@ -91,6 +94,7 @@ docker run -t uniswap-on-solidity
 
 
 ### K[Solidity[Uniswap]] benchmark measurements
+> Solidity-lite semantics in K with summarization/optimization
 
 | S/No. | Program | Krun | Krun + Proof hints | PG_base | PG | o/h_PG |
 | :-: | :- | :-: | :-: | :-: | :-: | :-: |
