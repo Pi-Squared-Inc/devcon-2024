@@ -53,10 +53,56 @@ docker run -t uniswap-on-solidity
 > - The higher the Speed value is, the faster it is as compared to Geth.
 > - Speed = 1 / Overhead
 
-## Proof hint generation of IMP version of ERC20 transfer
+## Proof hint generation of a given program
 
 [Insert instructions]
 
-## Math proof generation of IMP version of ERC20 transfer
+## Math proof generation (MPG) of MetaMath (MM) proof/s from a given proof hint
 
 [Insert instructions]
+
+## End-to-end MPG from a given program to MM proof/s
+
+[Insert instructions]
+
+## Summary of benchmark measurements
+
+### K[IMP] benchmark measurements
+
+| S/No. | Program | Krun | Krun + Proof hints | PG_base | PG | o/h_PG |
+| :-: | :- | :-: | :-: | :-: | :-: | :-: |
+| 1 | erc20transfer_success | 1.225s | 1.299s | 0.101s | 1.560s | 6.0x |  
+
+
+### K[IMP[Transfer]] benchmark measurements
+
+| S/No. | Program | Krun | Krun + Proof hints | PG_base | PG | o/h_PG |
+| :-: | :- | :-: | :-: | :-: | :-: | :-: |
+| 1 | erc20transfer_success | 1.264s | 1.234s | 0.027s | 0.987s | 10.2x | 
+
+
+### K[Solidity] benchmark measurements
+
+| S/No. | Program | Krun | Krun + Proof hints | PG_base | PG | o/h_PG | 
+| :-: | :- | :-: | :-: | :-: | :-: | :-: |
+| 1 | uniswap_addLiquidity.txn | 0.219s | 3.482s | 2898.241s | _TBC_ | _TBC_ |  
+| 2 | uniswap_swapSingleHopExactAmountIn.txn | 0.217s | 3.058s | 2590.308s | 3313.402s | 1.3x | 
+| 3 | uniswap_swapSingleHopExactAmountOut.txn | 0.217s | 3.131s | 2769.396s | _TBC_ | _TBC_ | 
+
+
+### K[Solidity[Uniswap]] benchmark measurements
+
+| S/No. | Program | Krun | Krun + Proof hints | PG_base | PG | o/h_PG |
+| :-: | :- | :-: | :-: | :-: | :-: | :-: |
+| 1 | uniswap_addLiquidity.txn | 0.222s | 1.440s | 1554.702s | 1452.360s | 0.9x | 
+| 2 | uniswap_swapSingleHopExactAmountIn.txn | 0.217s | 0.973s | 729.427s | 1520.758s | 2.1x | 
+| 3 | uniswap_swapSingleHopExactAmountOut.txn | 0.217s | 1.209s | 1068.381s | 1678.967s | 1.6x |  
+
+
+#### Definitions of measurements
+
+- **Krun:** Time taken to run a program using K
+- **Krun + Proof hints:** Time taken to run a program and generate its proof hints using K
+- **PG_base:** Time taken to take in the pre-processed proof hint file and process the type of each of the hints, before discarding them
+- **PG:** Time taken on PG with 21 cores working on it (as the rest of the cores are assigned for Proof 
+- **o/h_PG:** Overhead caused by PG, given by (PG + PP)/(PG_base + PP)
