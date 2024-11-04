@@ -31,7 +31,7 @@ docker run -t uniswap02-on-kevm
 ### Solidity-Lite Semantics (K[Solidity] and K[Solidity[Uniswap]])
 
 To build and execute the docker image for measuring UniSwap 1k swaps on Solidity-Lite Semantics with and without summarization/optimization, 
-,i.e., K[Solidity] and K[Solidity[Uniswap]], run the following commands:
+,i.e., K[Solidity[Uniswap]] (optimized for Uniswap) and K[Solidity], run the following commands:
 ```bash
 docker build . --file=Docker/solidity.Dockerfile -t uniswap-on-solidity
 docker run -t uniswap-on-solidity
@@ -42,9 +42,9 @@ docker run -t uniswap-on-solidity
 | Implementation | Time to run 1K swaps | Overhead | Speed |
 | :- | :-: | :-: | :-: |
 | **GETH** | 0.248s | 1x | 100% |
-| **KEVM** | 8.444s | 34x | 2.9% |
-| **Solidity-lite without summary** | 0.259s | 1.04x | 95.8% |
-| **Solidity-lite with summary** | **0.152s** | **0.61x** | **163%** |
+| **K[EVM]** | 8.444s | 34x | 2.9% |
+| **K[Solidity]** | 0.259s | 1.04x | 95.8% |
+| **K[Solidity[Uniswap]]** | **0.152s** | **0.61x** | **163%** |
 
 > **Note:**
 > - The Overhead and Speed calculated are based on using Geth as baseline.
