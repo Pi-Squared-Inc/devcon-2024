@@ -1,0 +1,20 @@
+// Modified from the transfer function at SomeToken.sol
+
+// Variables used for transfer
+int senderBalance, 
+    receiverBalance, 
+    transferAmount, 
+    returnValue; // failure = 0 and success = 1
+senderBalance = 10000;
+receiverBalance = 50;
+transferAmount = 49;
+
+// `transfer` function in imp (success case)
+
+if (senderBalance < transferAmount){
+  returnValue = 0;
+} else {
+  senderBalance   = senderBalance   - transferAmount;
+  receiverBalance = receiverBalance + transferAmount;
+  returnValue = 1;
+}
