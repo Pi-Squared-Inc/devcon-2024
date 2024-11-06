@@ -57,11 +57,11 @@ docker run -t uniswap-on-solidity
 
 [Insert instructions]
 
-## Math proof generation (MPG) of MetaMath (MM) proof/s from a given proof hint
+## Math proof generation (MPG) of ProofExpr from a given proof hint
 
 [Insert instructions]
 
-## End-to-end MPG from a given program to MM proof/s
+## End-to-end MPG from a given program to ProofExpr
 
 [Insert instructions]
 
