@@ -2,6 +2,16 @@
 
 > **NOTE:** The following are the instructions to set up for Pi-Squared-Inc developers only. Please set up executables so that the public users can run them without able to look at the codes. 
 
+
+## Demo purpose
+
+The goal of this demo is to demonstrate that executing Solidity programs in the [K framework](https://kframework.org/) using the Solidity formal semantics achieves comparable efficiency with executing programs in Geth. Moreover, if one applies the so-called summarization optimization to the Solidity formal semantics and contract, running programs in K can become considerably faster than running them using Geth.
+The measurements to support our claim can be found in the [Summary of measurements collected](##Summary-of-measurements-collected) section.
+
+## On the semantics-based program execution
+Semantics-based program execution brings not only efficiency promises, but also a correct-by-construction feature. The formal semantics of a programming language can be thought as a mathematical theory. When you feed such a mathematical theory and a specific program to K, the K framework transforms the execution of the program into a rigurous mathematical proof. Also, unlike Geth, which requires program compilation and is therefore susceptible to potential vulnerabilities from compiler bugs, semantics-based program execution removes the need for compilation. This minimizes exposure to such security risks and enhances system stability.
+If you want to find more on how formal semantics will change the Web3 landscape, read our [blogpost](https://blog.pi2.network/how-formal-semantics-will-bring-more-developers-to-web3/).
+
 ## Set up
 
 1. Install Docker (if necessary) - Follow the instructions provided [here](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)
