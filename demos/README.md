@@ -1,8 +1,34 @@
 # Demo
 
+> **NOTE:** The following are the instructions to set up for Pi-Squared-Inc developers only. Please set up executables so that the public users can run them without able to look at the codes. 
+
 ## Set up
 
-[Insert prerequisite set up]
+1. Install Docker (if necessary) - Follow the instructions provided [here](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)
+
+2. Install `make`
+    ```
+    sudo apt install make
+    ```
+
+3. Install `pip`
+    ```
+    sudo apt install python3-pip    
+    ```
+
+4. Install `poetry`
+   ```
+   sudo apt install python3-poetry
+   curl -sSL https://install.python-poetry.org | python3 - # to install the latest version of Poetry
+   ```
+   **NOTE:** After which, add `PATH="$HOME/.local/bin:$PATH"` above `PATH="$HOME/bin:$PATH"` in `~/.profile` before running `source ~/.profile`.
+   
+5. Install K version 7.1.158
+
+    ```
+    bash <(curl https://kframework.org/install)
+    kup install k --version v7.1.158
+    ```
 
 ## Uniswap 1k swaps with Geth and K
 > Dockerfiles and instructions in this section are written by @Robertorosmaninho
@@ -19,23 +45,16 @@ function call as seen in line 720 of [swaps.sol](../src/swaps.sol).
 To build and execute the docker image for measuring UniSwap 1k swaps on Geth, run the following commands:
 ```bash
 sudo docker build . --file=Docker/geth.Dockerfile -t uniswap02-on-geth
-docker run -t uniswap02-on-geth
+sudo docker run -t uniswap02-on-geth
 ```
 
-### EVM Semantics in K (K[EVM])
-
-To build and execute the docker image for measuring UniSwap 1k swaps on K[EVM], run the following commands:
-```bash
-docker build --build-arg HOME=$HOME . --file=Docker/kevm.Dockerfile -t uniswap02-on-kevm
-docker run -t uniswap02-on-kevm
-```
 ### Solidity-Lite Semantics in K (K[Solidity] and K[Solidity[Uniswap]])
 
 To build and execute the docker image for measuring UniSwap 1k swaps on Solidity-Lite Semantics with and without summarization/optimization, 
 ,i.e., K[Solidity[Uniswap]] (optimized for Uniswap) and K[Solidity], run the following commands:
 ```bash
-docker build . --file=Docker/solidity.Dockerfile -t uniswap-on-solidity
-docker run -t uniswap-on-solidity
+sudo docker build . --file=Docker/solidity.Dockerfile -t uniswap-on-solidity
+sudo docker run -t uniswap-on-solidity
 ```
 
 ### Summary of measurements collected
@@ -43,7 +62,6 @@ docker run -t uniswap-on-solidity
 | Implementation | Time to run 1K swaps | Overhead | Speed |
 | :- | :-: | :-: | :-: |
 | **GETH** | 0.248s | 1x | 100% |
-| **K[EVM]** | 8.444s | 34x | 2.9% |
 | **K[Solidity]** | 0.259s | 1.04x | 95.8% |
 | **K[Solidity[Uniswap]]** | **0.152s** | **0.61x** | **163%** |
 
@@ -52,6 +70,21 @@ docker run -t uniswap-on-solidity
 > - The lower the Overhead value is, the faster it is as compared to Geth.
 > - The higher the Speed value is, the faster it is as compared to Geth.
 > - Speed = 1 / Overhead
+
+## Set up to run proof generation and its measurements
+
+1. Clone the [pi2](https://github.com/Pi-Squared-Inc/pi2) repository.
+    ```
+    git clone https://github.com/Pi-Squared-Inc/pi2.git
+    cd pi2
+    ```
+
+2. Build the environment.
+    ```
+    ./Test make build
+    ```
+    **NOTE:** If the command returns error, just follow the recommended actions suggested by the error output. For example, on the first run of the above command, it may ask you to instal Metamath via `sudo apt install metamath`.
+
 
 ## Proof hint generation from a given program
 
@@ -65,7 +98,23 @@ docker run -t uniswap-on-solidity
 
 [Insert instructions]
 
-## Summary of benchmark measurements
+## Benchmark measurements generation
+
+1. Set up
+    ```
+    source ~/.profile # to use the latest Peotry
+    git fetch origin dev/jin/2024-10-29/devcon-report
+    git checkout dev/jin/2024-10-29/devcon-report
+    ```
+
+2. Command to run
+    ```
+    ./Test grun python -Om generation.src.measurements.devcon_measurements --fresh-build --gc-disable
+    ```
+
+The report generated can be found in `generation/src/measurements/docs/devcon_report.md`.
+
+## Summary of benchmark measurements [TO BE UPDATED]
 
 ### K[IMP] benchmark measurements
 > IMP semantics in K
