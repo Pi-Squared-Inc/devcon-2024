@@ -114,49 +114,35 @@ sudo docker run -t uniswap-on-solidity
 
 The report generated can be found in `generation/src/measurements/docs/devcon_report.md`.
 
-## Summary of benchmark measurements [TO BE UPDATED]
-
-### K[IMP] benchmark measurements
-> IMP semantics in K
-
-| S/No. | Program | Krun | Krun + Proof hints | o/h Proof hints | PG_base | PG | o/h_PG |
-| :-: | :- | :-: | :-: | :-: | :-: | :-: | :-: |
-| 1 | erc20transfer_success | 1.225s | 1.299s | 1.0x | 0.101s | 1.560s | 6.0x |  
-
-
-### K[IMP[Transfer]] benchmark measurements
-> IMP semantics in K with summarization/optimization
-
-| S/No. | Program | Krun | Krun + Proof hints | o/h Proof hints | PG_base | PG | o/h_PG |
-| :-: | :- | :-: | :-: | :-: | :-: | :-: | :-: |
-| 1 | erc20transfer_success | 1.264s | 1.234s | 1.0x | 0.027s | 0.987s | 10.2x | 
-
+# Summary for Devcon benchmark measurements
+> Measurements were taken on 2024-11-07 using Intel Xeon Scalable (Sapphire Rapids) 96 vCPU with 384GB RAM
 
 ### K[Solidity] benchmark measurements
 > Solidity-lite semantics in K
 
-| S/No. | Program | Krun | Krun + Proof hints | o/h Proof hints | PG_base | PG | o/h_PG |
-| :-: | :- | :-: | :-: | :-: | :-: | :-: | :-: |
-| 1 | uniswap_addLiquidity.txn | 0.219s | 3.482s | 15.8x | 2898.241s | _TBC_ | _TBC_ |  
-| 2 | uniswap_swapSingleHopExactAmountIn.txn | 0.217s | 3.058s | 14.0x | 2590.308s | 3313.402s | 1.3x | 
-| 3 | uniswap_swapSingleHopExactAmountOut.txn | 0.217s | 3.131s | 14.4x | 2769.396s | _TBC_ | _TBC_ | 
+| S/No. | Program | Krun | Krun + LLVM | Krun + LLVM + Proof hints | o/h_Krun_w_hints | PP | PG_base | PG | o/h_PG |
+| :-: | :- | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| 1 | uniswap_addLiquidity.txn | 0.125s | 0.267s | 3.066s | 24.498x | 58.443s | 2069.015s | 1932.652s | 0.9x | 
+| 2 | uniswap_swapSingleHopExactAmountIn.txn | 0.128s | 0.261s | 2.720s | 21.319x | 48.703s | 1870.845s | 1695.647s | 0.9x | 
+| 3 | uniswap_swapSingleHopExactAmountOut.txn | 0.127s | 0.261s | 2.804s | 22.105x | 51.424s | 1940.719s | 2225.302s | 1.1x | 
 
 
 ### K[Solidity[Uniswap]] benchmark measurements
 > Solidity-lite semantics in K with summarization/optimization
 
-| S/No. | Program | Krun | Krun + Proof hints | o/h Proof hints | PG_base | PG | o/h_PG |
-| :-: | :- | :-: | :-: | :-: | :-: | :-: | :-: |
-| 1 | uniswap_addLiquidity.txn | 0.222s | 1.440s | 6.4x | 1554.702s | 1452.360s | 0.9x | 
-| 2 | uniswap_swapSingleHopExactAmountIn.txn | 0.217s | 0.973s | 4.4x | 729.427s | 1520.758s | 2.1x | 
-| 3 | uniswap_swapSingleHopExactAmountOut.txn | 0.217s | 1.209s | 5.5x | 1068.381s | 1678.967s | 1.6x |  
+| S/No. | Program | Krun | Krun + LLVM | Krun + LLVM + Proof hints | o/h_Krun_w_hints | PP | PG_base | PG | o/h_PG |
+| :-: | :- | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| 1 | uniswap_addLiquidity.txn | 0.132s | 0.266s | 1.367s | 10.331x | 23.043s | 836.493s | 981.924s | 1.2x | 
+| 2 | uniswap_swapSingleHopExactAmountIn.txn | 0.127s | 0.263s | 0.931s | 7.320x | 16.616s | 528.551s | 704.850s | 1.3x | 
+| 3 | uniswap_swapSingleHopExactAmountOut.txn | 0.129s | 0.263s | 1.122s | 8.680x | 20.734s | 614.201s | 746.447s | 1.2x | 
 
 
-#### Definitions of measurements
+### Definitions of measurements
 
 - **Krun:** Time taken to run a program using K
-- **Krun + Proof hints:** Time taken to run a program and generate its proof hints using K
-- **o/h Proof hints:** Overhead caused by generating of proof hints, given by (Krun + Proof hints)/Krun
+- **Krun + LLVM:** Time taken to run a program with LLVM execution
+- **Krun + LLVM + Proof hints:** Time taken to run a program with LLVM execution and generate its proof hints using K
+- **o/h_Krun_w_hints:** Overhead caused by generating proof hints, given by (Krun + LLVM + Proof hints)/Krun- **PP:** Time taken to Pre-Process, PP, the proof hint file
 - **PG_base:** Time taken to take in the pre-processed proof hint file and process the type of each of the hints, before discarding them
-- **PG:** Time taken on PG with 21 cores working on it (as the rest of the cores are assigned for Proof 
+- **PG:** Time taken on Proof Generation, PG
 - **o/h_PG:** Overhead caused by PG, given by (PG + PP)/(PG_base + PP)
