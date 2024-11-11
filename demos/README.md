@@ -1,5 +1,19 @@
 # $\pi^2$ Devcon 7 Demo
 
+- [$\\pi^2$ Devcon 7 Demo](#pi2-devcon-7-demo)
+  - [Demo purpose](#demo-purpose)
+  - [On the semantics-based program execution](#on-the-semantics-based-program-execution)
+  - [Set up](#set-up)
+  - [Uniswap 1k swaps with Geth and K](#uniswap-1k-swaps-with-geth-and-k)
+    - [GO Ethereum (Geth)](#go-ethereum-geth)
+    - [Solidity-Lite Semantics in K (K\[Solidity\] and K\[Solidity\[Uniswap\]\])](#solidity-lite-semantics-in-k-ksolidity-and-ksolidityuniswap)
+    - [Summary of measurements collected](#summary-of-measurements-collected)
+  - [Generating Metamath proofs for arbitrary programs](#generating-metamath-proofs-for-arbitrary-programs)
+  - [Benchmark measurements generation](#benchmark-measurements-generation)
+- [Summary for Devcon benchmark measurements](#summary-for-devcon-benchmark-measurements)
+    - [K\[Solidity\] benchmark measurements](#ksolidity-benchmark-measurements)
+    - [K\[Solidity\[Uniswap\]\] benchmark measurements](#ksolidityuniswap-benchmark-measurements)
+    - [Definitions of measurements](#definitions-of-measurements)
 
 ## Demo purpose
 
@@ -148,3 +162,4 @@ Our report can be found in `generation/src/measurements/docs/devcon_report.md`, 
 - **PG_base:** Time taken to take in the pre-processed proof hint file and process the type of each of the hints, before discarding them
 - **PG:** Time taken on Proof Generation, PG
 - **o/h_PG:** Overhead caused by PG, given by (PG + PP)/(PG_base + PP)
+
