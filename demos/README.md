@@ -12,31 +12,7 @@ If you want to find more on how formal semantics will change the Web3 landscape,
 
 ## Set up
 
-1. Install Docker (if necessary) - Follow the instructions provided [here](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)
-
-2. Install `make`
-    ```
-    sudo apt install make
-    ```
-
-3. Install `pip`
-    ```
-    sudo apt install python3-pip    
-    ```
-
-4. Install `poetry`
-   ```
-   sudo apt install python3-poetry
-   curl -sSL https://install.python-poetry.org | python3 - # to install the latest version of Poetry
-   ```
-   **NOTE:** After which, add `PATH="$HOME/.local/bin:$PATH"` above `PATH="$HOME/bin:$PATH"` in `~/.profile` before running `source ~/.profile`.
-   
-5. Install K version 7.1.158
-
-    ```
-    bash <(curl https://kframework.org/install)
-    kup install k --version v7.1.158
-    ```
+In order to run our demos, you should make sure you have a working installation of Docker. If not, follow the instructions provided [here](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)
 
 ## Uniswap 1k swaps with Geth and K
 > Dockerfiles and instructions in this section are written by @Robertorosmaninho
@@ -81,14 +57,14 @@ sudo docker run -t uniswap-on-solidity
 
 ## Generating Metamath proofs for arbitrary programs
 Before you start, pull the Docker image that contains the $\pi^2$ proof generation executables:
-```
+```bash
 docker pull ghcr.io/pi-squared-inc/pi2-mpg-image:latest
 ```
 
 Math proof generation begins with the definition of a programming language semantics in K, and a program written in that language. As K executes the program using the semantics, $\pi^2$ translates its execution trace to a formal mathematical proof written in Metamath.
 
 If you want a high-level view of the process, you can simply execute:
-```
+```bash
 docker run --rm -it ghcr.io/pi-squared-inc/pi2-mpg-image \
     pi2 imp generation/k-benchmarks/imp/erc20transfer_success.imp -o IMP -v
 ```
@@ -105,12 +81,12 @@ You will see an output like this:
 These are the three stages of $\pi^2$ proof generation. First, we compile the formal semantics of IMP to an executable interpreter. Then, we invoke the interpreter on our program and we output its execution trace. For us, this execution trace gives *hints* about how the final mathematical proof should be constructed. Finally, we use these hints to generate the proof.
 
 The more curious-minded are welcome to attach to a shell in the Docker container and explore around:
-```
+```bash
 docker run --rm -it --entrypoint bash ghcr.io/pi-squared-inc/pi2-mpg-image
 ```
 
 Once here, you can execute the same command as above, and perhaps make it more verbose:
-```
+```bash
 pi2 imp generation/k-benchmarks/imp/erc20transfer_success.imp -o IMP -vvv
 ```
 
