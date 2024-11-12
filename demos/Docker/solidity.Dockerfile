@@ -22,19 +22,21 @@ WORKDIR /workspace/solidity-demo-semantics
 # Build the Solidy Semantics
 RUN make build
 
-# Run the test of 1 Swap without Summarization
-RUN multitime -n 10 $(bin/krun-sol test/regression/swaps.sol test/regression/swaps.txn --dry-run) 2> time_to_execute_single_swap_without_summary.txt
+# Run the test of 1000 Swap without Summarization
+RUN bin/krun-sol test/regression/swaps.sol test/regression/swaps.txn --dry-run > swap_command_without_summarization
+RUN multitime -n 10 $(cat swap_command_without_summarization) 2> time_to_execute_1000_swap_without_summary.txt
 
 # Run the test of 1000 Swaps with Summarization
-RUN multitime -n 10 $(bin/krun-sol \
+RUN bin/krun-sol \
     test/examples/swaps/UniswapV2SwapRenamed.sol             \
     test/transactions/swaps/UniswapV2SwapRenamed/Swaps1K.txn \
-    test/transactions/swaps/UniswapV2SwapRenamed/Swaps1K.smr --dry-run) 2> time_to_execute_1000_swaps_with_summary.txt
+    test/transactions/swaps/UniswapV2SwapRenamed/Swaps1K.smr --dry-run > swap_command_without_summarization
+RUN multitime -n 10 $(cat swap_command_without_summarization) 2> time_to_execute_1000_swaps_with_summary.txt
 
 
 # Output the time of the test executions
 CMD ["sh", "-c", "echo 'Time to Execute test/regression/swaps.txn using Solidity-Lite Semantics: ' && \
-                  tail -n 4 time_to_execute_single_swap_without_summary.txt && \
+                  tail -n 4 time_to_execute_1000_swap_without_summary.txt && \
                   echo '' && \
                   echo 'Time to Execute test/transactions/swaps/UniswapV2SwapRenamed/Swaps1K.txn using Solidity-Lite Semantics: ' && \
                   tail -n 4 time_to_execute_1000_swaps_with_summary.txt"]
