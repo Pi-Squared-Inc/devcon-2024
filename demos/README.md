@@ -10,10 +10,10 @@
     - [Summary of measurements collected](#summary-of-measurements-collected)
   - [Generating Metamath proofs for arbitrary programs](#generating-metamath-proofs-for-arbitrary-programs)
   - [Benchmark measurements generation](#benchmark-measurements-generation)
-- [Summary for Devcon benchmark measurements](#summary-for-devcon-benchmark-measurements)
-    - [K\[Solidity\] benchmark measurements](#ksolidity-benchmark-measurements)
-    - [K\[Solidity\[Uniswap\]\] benchmark measurements](#ksolidityuniswap-benchmark-measurements)
-    - [Definitions of measurements](#definitions-of-measurements)
+    - [Summary for Devcon benchmark measurements](#summary-for-devcon-benchmark-measurements)
+      - [K\[Solidity\] benchmark measurements](#ksolidity-benchmark-measurements)
+      - [K\[Solidity\[Uniswap\]\] benchmark measurements](#ksolidityuniswap-benchmark-measurements)
+      - [Definitions of measurements](#definitions-of-measurements)
 
 ## Demo purpose
 
@@ -26,13 +26,13 @@ If you want to find more on how formal semantics will change the Web3 landscape,
 
 ## Set up
 
-In order to run our demos, you should make sure you have a working installation of Docker. If not, follow the instructions provided [here](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)
+In order to run our demos, you should make sure you have a working installation of Docker. If not, follow the instructions provided [here](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository).
 
 ## Uniswap 1k swaps with Geth and K
-> Dockerfiles and instructions in this section are written by @Robertorosmaninho
 
-This section includes instructions to run `testSwapLoop` (line 696 to 704 of [swaps.sol](../src/swaps.sol)) on Geth and
-the different K semantics, i.e., K[EVM], K[Solidity] and K[Solidity[Uniswap]]. The test consists of setting up necessary 
+This section includes instructions to reproduce the measurements collected as seen in table seen at the end of this section. 
+The benchmark program we measured on is the `testSwapLoop` (line 696 to 704 of [swaps.sol](../src/swaps.sol)). It is run on Geth 
+and the different K semantics, i.e., K[EVM], K[Solidity] and K[Solidity[Uniswap]]. The test consists of setting up necessary 
 mock token contracts and executing `testSwapSingleHopExactAmountIn` (line 706 to 723 of [swaps.sol](../src/swaps.sol)) 
 1000 times via a `while` loop. The `testSwapSingleHopExactAmountIn` consists of setting up the necessary environment,
 such as depositing, approving and transferring sufficient tokens in order to make the required `swapSingleHopExactAmountIn`
@@ -56,6 +56,7 @@ sudo docker run -t uniswap-on-solidity
 ```
 
 ### Summary of measurements collected
+> Measurements were taken on 13th Gen Intel(R) Core(TM) i9-13900K 24-Core CPU (32 threads), with Intel® UHD Graphics 770 (Integrated with CPU) and 64GB RAM.
 
 | Implementation | Time to run 1K swaps | Overhead | Speed |
 | :- | :-: | :-: | :-: |
@@ -76,6 +77,7 @@ docker pull ghcr.io/pi-squared-inc/pi2-mpg-image:latest
 ```
 
 Math proof generation begins with the definition of a programming language semantics in K, and a program written in that language. As K executes the program using the semantics, $\pi^2$ translates its execution trace to a formal mathematical proof written in Metamath.
+For this section of the demo, we will be using [erc20transfer_success.imp](../src/erc20transfer.imp), an IMP version of ERC20 transfer function, as an example.
 
 If you want a high-level view of the process, you can simply execute:
 ```bash
@@ -120,6 +122,12 @@ Feel free to peek at the formal semantics of IMP located in `generation/k-benchm
 
 ## Benchmark measurements generation
 We support not just IMP, but real-world languages like Solidity. Under `generation/solidity-benchmarks`, you will find a Uniswap contract, and various transactions we execute on it.
+For each benchmark semantics, namely K[Solidity] and K[Solidity[Uniswap]], we measured on 3 different transaction programs:
+- [uniswap_addLiquidity.txn](../src/uniswap_addLiquidity.txn)
+- [uniswap_swapSingleHopExactAmountIn.txn](../src/uniswap_swapSingleHopExactAmountIn.txn)
+- [uniswap_swapSingleHopExactAmountOut.txn](../src/uniswap_swapSingleHopExactAmountOut.txn)    
+Each of the transaction programs consists of executing different test/function calls from the 
+[UniswapV2SwapRenamed.sol](../src/UniswapV2SwapRenamed.sol) contract.
 
 The following command (ran on the host) will run all our performance benchmarks on Solidity, and output an execution report:
 ```bash
@@ -130,10 +138,10 @@ docker run --rm -it ghcr.io/pi-squared-inc/pi2-mpg-image bash -c \
 
 Our report can be found in `generation/src/measurements/docs/devcon_report.md`, and is summarized below.
 
-# Summary for Devcon benchmark measurements
-> Measurements were taken on 2024-11-07 using Intel Xeon Scalable (Sapphire Rapids) 96 vCPU with 384GB RAM
+### Summary for Devcon benchmark measurements
+> Measurements were taken on Intel Xeon Scalable (Sapphire Rapids) 96 vCPU with 384GB RAM.
 
-### K[Solidity] benchmark measurements
+#### K[Solidity] benchmark measurements
 > Solidity-lite semantics in K
 
 | S/No. | Program | Krun | Krun + LLVM | Krun + LLVM + Proof hints | o/h_Krun_w_hints | PP | PG_base | PG | o/h_PG |
@@ -143,7 +151,7 @@ Our report can be found in `generation/src/measurements/docs/devcon_report.md`, 
 | 3 | uniswap_swapSingleHopExactAmountOut.txn | 0.127s | 0.261s | 2.804s | 22.105x | 51.424s | 1940.719s | 2225.302s | 1.1x | 
 
 
-### K[Solidity[Uniswap]] benchmark measurements
+#### K[Solidity[Uniswap]] benchmark measurements
 > Solidity-lite semantics in K with summarization/optimization
 
 | S/No. | Program | Krun | Krun + LLVM | Krun + LLVM + Proof hints | o/h_Krun_w_hints | PP | PG_base | PG | o/h_PG |
@@ -153,7 +161,7 @@ Our report can be found in `generation/src/measurements/docs/devcon_report.md`, 
 | 3 | uniswap_swapSingleHopExactAmountOut.txn | 0.129s | 0.263s | 1.122s | 8.680x | 20.734s | 614.201s | 746.447s | 1.2x | 
 
 
-### Definitions of measurements
+#### Definitions of measurements
 
 - **Krun:** Time taken to run a program using K
 - **Krun + LLVM:** Time taken to run a program with LLVM execution
